@@ -13,9 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install webtui (from GitHub release)
+      - name: Install webtui
         run: |
-          curl -L https://github.com/webtui/webtui/releases/latest/download/webtui-linux-amd64 -o webtui
+          curl -L https://github.com/webtui/webtui/releases/download/v0.9.2/webtui-linux-amd64 -o webtui
           chmod +x webtui
           sudo mv webtui /usr/local/bin/webtui
 
