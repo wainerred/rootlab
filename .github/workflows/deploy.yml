@@ -2,34 +2,28 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    branches:
+      - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install webtui
-        run: npm install -g webtui
+      - name: Install webtui (from GitHub release)
+        run: |
+          curl -L https://github.com/webtui/webtui/releases/latest/download/webtui-linux-amd64 -o webtui
+          chmod +x webtui
+          sudo mv webtui /usr/local/bin/webtui
 
       - name: Build site
         run: webtui build
 
       - name: Deploy to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: .output
-
-      - name: Deploy using GitHub Pages
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
