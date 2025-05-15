@@ -19,6 +19,9 @@ jobs:
           chmod +x webtui
           sudo mv webtui /usr/local/bin/webtui
 
+      - name: Check binary
+        run: file /usr/local/bin/webtui
+
       - name: Build site
         run: webtui build
 
